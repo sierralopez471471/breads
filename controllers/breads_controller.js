@@ -37,18 +37,9 @@ breads.delete('/:id', (req, res) => {
     })
 })
 
-  // NEW
+// NEW
 breads.get('/new', (req, res) => {
     res.render('new')
-})
-
-breads.get('/:id', (req, res) => {
-  Bread.findById(req.params.id)
-      .then(foundBread => {
-          res.render('show', {
-              bread: foundBread
-          })
-      })
 })
 
 // EDIT
@@ -76,17 +67,16 @@ breads.put('/:id', (req, res) => {
 })
 
 // SHOW
-breads.get('/:arrayIndex', (req, res) => {
-    if (Bread[req.params.arrayIndex]) {
-      res.render('Show', {
-        bread:Bread[req.params.arrayIndex],
-        index: req.params.arrayIndex
+breads.get('/:id', (req, res) => {
+  Bread.findById(req.params.id)
+      .then(foundBread => {
+        const bakedBy = foundBread.getBakedBy() 
+        console.log(bakedBy)
+        res.render('show', {
+            bread: foundBread
+        })
       })
-    } else {
-      res.send('404')
-    }
-  })
-  
+    })
 
 module.exports = breads
 
